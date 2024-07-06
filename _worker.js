@@ -3238,24 +3238,24 @@ const xrayWgOutboundTemp = {
         keepAlive: 10
     },
     streamSettings: {
-        sockopt: {
-            dialerProxy: ""
-        }
-    },
-    tag: "proxy"
-};
+        套接字选项：{sockopt: {
+            拨号代理：“”dialerProxy: ""
+        }}
+    }，},
+    标签： “代理”tag: "proxy"
+}};
 
-const singboxWgOutboundTemp = {
-    local_address: [],
-    mtu: 1280,
-    peer_public_key: "",
-    pre_shared_key: "",
-    private_key: "",
-    reserved: "",
-    server: "engage.cloudflareclient.com",
-    server_port: 2408,
-    type: "wireguard",
-    domain_strategy: "prefer_ipv6",
-    detour: "",
-    tag: ""
-};
+constconst singboxWgOutboundTemp = {singboxWgOutboundTemp = {
+    本地地址: [],local_address: [],
+    mtu: 1280，mtu: 1280,
+    对等公钥："",peer_public_key: "",
+    预共享密钥： ””，pre_shared_key: "",
+    私钥："",private_key: "",
+    预订的： ””，reserved: "",
+    服务器：“engage.cloudflareclient.com”，server: "engage.cloudflareclient.com",
+    服务器端口：2408，server_port: 2408,
+    输入：“wireguard”，type: "wireguard",
+    域名策略：“prefer_ipv6”，domain_strategy: "prefer_ipv6",
+    車輛改道： ””，detour: "",
+    标签： ””tag: ""
+}};
