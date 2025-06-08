@@ -1,0 +1,61 @@
+name: Download BPB-Worker-Panel Release
+
+# 定义触发工作流的事件
+on:
+  push:
+    branches:
+      - main  # 根据需要修改触发分支
+
+jobs:
+  download-release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python (optional, if needed for subsequent steps)
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Download latest release of BPB-Worker-Panel
+      run: |
+        # 定义项目仓库URL和下载路径
+        REPO_URL="https://github.com/bia-pain-bache/BPB-Worker-Panel"
+        DOWNLOAD_DIR="./bpb-worker-panel"
+
+        # 创建下载目录（如果不存在）
+        mkdir -p $DOWNLOAD_DIR
+
+        # 获取最新的发行版信息
+        LATEST_RELEASE_INFO=$(curl -s https://api.github.com/repos/$REPO_URL/releases/latest)
+
+        # 提取发行版中的assets URL
+        ASSET_URL=$(echo $LATEST_RELEASE_INFO | jq -r '.assets[].browser_download_url | select(test("\\.zip$"))')
+
+        # 下载发行版资产（假设是zip文件）
+        curl -L -o $DOWNLOAD_DIR/bpb-worker-panel.zip $ASSET_URL
+
+        # 解压下载的zip文件
+        unzip -o $DOWNLOAD_DIR/bpb-worker-panel.zip -d $DOWNLOAD_DIR
+
+        # 删除zip文件（可选）
+        rm $DOWNLOAD_DIR/bpb-worker-panel.zip
+
+      # 需要安装jq来解析JSON，可以通过actions/setup-node@v2安装npm，然后使用npm安装jq
+      # 或者直接使用actions-hub上的jq action，这里假设系统已具备jq命令
+      shell: bash
+
+    - name: Verify download (optional)
+      run: |
+        # 验证下载和解压是否成功（例如，检查特定文件是否存在）
+        ls -l ./bpb-worker-panel
+
+    # 可选步骤：将下载的内容添加到版本控制中并提交（谨慎使用）
+    # - name: Add downloaded files to Git
+    #   run: |
+    #     git add ./bpb-worker-panel
+    #     git commit -m "Automated download of BPB-Worker-Panel release"
+    #     git push
+    #   if: github.ref == 'refs/heads/main'  # 仅在主分支上提交更改
